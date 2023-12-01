@@ -1,40 +1,30 @@
-import json
-
-f1 = open("index.json", "r")
-numX = json.load(f1)
-newWord = "{0}".format(numX["words"]).lower()
+f1 = open("index.txt", "r")
+newWord = "{0}".format(f1.read())
 f1.close()
-
-alpha = []
-for x in range(25): 
-    alpha.append(numX["letters"][x])
-nums = []
-start = 0
+letters = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "y", "x", "z"]
+asciiNums = []
 for x in range(len(newWord)):
-    ascii = 141
-    for x in range(len(alpha)): 
-        if (newWord[start] == alpha[x]): 
-            nums.append(ascii)
-        ascii += 1
-    start += 1
-binaryNums = [1, 2, 4, 8, 16, 32, 64, 128]
-myList = []
-for x in range(len(nums)): 
-    binary = [0, 0, 0, 0, 0, 0, 0, 0]
-    num1 = nums[x]
-    while (num1 != 0): 
-        index = len(binaryNums)-1
-        for x in range(len(binaryNums)): 
-            if (num1 >= binaryNums[index]): 
-                binary.insert(index, 1)
-                binary.remove(binary[index+1])
-                num1 -= binaryNums[index]
-            index -= 1
-    myList.append(binary)
-f2 = open("index.txt", "a")
-for x in range(len(myList)): 
-    for y in range(len(myList[x])):
-        f2.write(str(myList[x][y]))
+    num1 = 141
+    for y in range(len(letters)):
+        if(newWord[x] == letters[y]):
+            asciiNums.append(num1)
+        num1 += 1
+binary1 = [1, 2, 4, 8, 16, 32, 64, 128]
+binaryNums = []
+for x in range(len(asciiNums)):
+    binary2 = [0, 0, 0, 0, 0, 0, 0, 0]
+    index = len(binary1)-1
+    target = asciiNums[x]
+    while(target != 0):
+        if(target >= binary1[index]):
+            target -= binary1[index]
+            binary2.insert(index, 1)
+            binary2.remove(binary2[index+1])
+        index -= 1
+    binaryNums.append(binary2)
+f2 = open("binary.txt", "a")
+for x in range(len(binaryNums)):
+    for y in range(len(binaryNums[x])):
+        f2.write(str(binaryNums[x][y]))
     f2.write("\n")
-f2.close() 
-            
+f2.close()
